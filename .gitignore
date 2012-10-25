@@ -1,0 +1,11 @@
+.classpath
+.project
+.settings/
+.idea/
+target/
+*.un~
+.DS_Store
+*.dSYM/
+*.log
+*.iml
+src/test/cassandra
