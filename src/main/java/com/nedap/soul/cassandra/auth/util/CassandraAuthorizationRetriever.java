@@ -29,6 +29,10 @@ public class CassandraAuthorizationRetriever implements AuthorizationRetriever {
 
     @Override
     public LinkedHashMap<String, EnumSet<Permission>> getPermissionMapForUser(String username) {
+        return getGrantAwarePermissionMapForUser(username, false);
+    }
+
+    private LinkedHashMap<String, EnumSet<Permission>> getGrantAwarePermissionMapForUser(String username, boolean grants) {
         LinkedHashMap<String, EnumSet<Permission>> result = new LinkedHashMap<String, EnumSet<Permission>>();
 
         QueryPath path = new QueryPath(COLUMN_FAMILY);
@@ -45,7 +49,11 @@ public class CassandraAuthorizationRetriever implements AuthorizationRetriever {
                     for (IColumn col : r.cf.getSortedColumns()) {
                         String entry = ByteBufferUtil.string(col.name());
                         long val = ByteBufferUtil.toLong(col.value());
-                        result.put(entry, encoder.decodeLong(val));
+                        if(grants) {
+                            result.put(entry, encoder.decode((int)(val >> 32)));
+                        } else {
+                            result.put(entry, encoder.decode((int)val));
+                        }
                     }
                 }
             }

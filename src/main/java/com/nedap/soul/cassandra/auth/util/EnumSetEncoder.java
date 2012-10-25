@@ -17,7 +17,7 @@ public class EnumSetEncoder<E extends Enum<E>> {
         }
     }
 
-    public EnumSet<E> decodeLong(long value) {
+    public EnumSet<E> decode(int value) {
         EnumSet<E> result = EnumSet.noneOf(klass);
         int ord = 0;
         int bit = 1;
@@ -31,8 +31,8 @@ public class EnumSetEncoder<E extends Enum<E>> {
         return result;
     }
 
-    public long encodeLong(EnumSet<E> perms) {
-        long ret = 0;
+    public int encode(EnumSet<E> perms) {
+        int ret = 0;
         for(E p : perms) {
             ret |= (1 << p.ordinal());
         }

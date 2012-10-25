@@ -5,10 +5,6 @@ import org.apache.cassandra.auth.Permission;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author dirkjan
- */
 public class EnumSetEncoderTest {
 
     private EnumSetEncoder<Permission> encoder;
@@ -18,21 +14,21 @@ public class EnumSetEncoderTest {
     }
 
     @Test
-    public void testEncodeLong() {
+    public void testEncode() {
         EnumSet<Permission> perms = EnumSet.noneOf(Permission.class);
         perms.add(Permission.CREATE);
         perms.add(Permission.DELETE);
         perms.add(Permission.SELECT);
-        assertEquals(1568L, encoder.encodeLong(perms));
+        assertEquals(1568, encoder.encode(perms));
     }
 
     @Test
-    public void testDecodeLong() {
+    public void testDecode() {
         EnumSet<Permission> perms = EnumSet.noneOf(Permission.class);
         perms.add(Permission.CREATE);
         perms.add(Permission.DELETE);
         perms.add(Permission.SELECT);
-        assertEquals(perms, encoder.decodeLong(1568L));
+        assertEquals(perms, encoder.decode(1568));
     }
 
 }

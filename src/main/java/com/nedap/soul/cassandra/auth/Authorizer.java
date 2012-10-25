@@ -12,8 +12,11 @@ import org.apache.cassandra.auth.Permission;
 import org.apache.cassandra.auth.Resources;
 import org.apache.cassandra.config.ConfigurationException;
 import org.apache.cassandra.cql3.CFName;
+import org.apache.cassandra.thrift.Column;
 import org.apache.cassandra.thrift.CqlResult;
+import org.apache.cassandra.thrift.CqlRow;
 import org.apache.cassandra.thrift.InvalidRequestException;
+import org.apache.cassandra.utils.ByteBufferUtil;
 
 public class Authorizer implements IAuthority2 {
 
@@ -66,7 +69,18 @@ public class Authorizer implements IAuthority2 {
 
     @Override
     public CqlResult listPermissions(String username) throws InvalidRequestException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        LinkedHashMap<String, EnumSet<Permission>> permissionMapForUser = retriever.getPermissionMapForUser(username);
+        CqlResult result = new CqlResult();
+        for(Map.Entry<String, EnumSet<Permission>> entry : permissionMapForUser.entrySet()) {
+            CqlRow row = new CqlRow();
+            Column col = new Column(ByteBufferUtil.bytes("permissions"));
+            row.key = ByteBufferUtil.bytes(entry.getKey());
+            col.value = ByteBufferUtil.bytes(entry.getValue().toString());
+            row.addToColumns(col);
+            result.addToRows(row);
+            result.num++;
+        }
+        return result;
     }
 
     @Override

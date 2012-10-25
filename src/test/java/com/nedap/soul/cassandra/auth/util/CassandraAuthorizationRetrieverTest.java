@@ -43,8 +43,8 @@ public class CassandraAuthorizationRetrieverTest {
         EnumSet<Permission> perms = EnumSet.of(Permission.ALTER, Permission.CREATE, Permission.READ, Permission.WRITE);
         EnumSet<Permission> perms2 = EnumSet.of(Permission.READ);
 
-        change.add(new QueryPath(cpTest), ByteBufferUtil.bytes(encoder.encodeLong(perms)), 0);
-        change.add(new QueryPath(cpTest2), ByteBufferUtil.bytes(encoder.encodeLong(perms2)), 0);
+        change.add(new QueryPath(cpTest), ByteBufferUtil.bytes((long)encoder.encode(perms)), 0);
+        change.add(new QueryPath(cpTest2), ByteBufferUtil.bytes((long)encoder.encode(perms2)), 0);
         StorageProxy.mutate(Arrays.asList(change), ConsistencyLevel.ONE);
     }
 

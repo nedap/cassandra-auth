@@ -8,6 +8,10 @@ import org.apache.cassandra.auth.AuthenticatedUser;
 import org.apache.cassandra.auth.Permission;
 import org.apache.cassandra.auth.Resources;
 import org.apache.cassandra.config.ConfigurationException;
+import org.apache.cassandra.thrift.Column;
+import org.apache.cassandra.thrift.CqlResult;
+import org.apache.cassandra.thrift.CqlRow;
+import org.apache.cassandra.utils.ByteBufferUtil;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Rule;
@@ -58,7 +62,7 @@ public class AuthorizerTest {
         List<Object> permissions = new ArrayList<Object>();
         permissions.add(Resources.ROOT);
         permissions.add(Resources.KEYSPACES);
-        assertEquals(authorizer.authorize(new AuthenticatedUser("npn_existant_user"), permissions), Permission.NONE);
+        assertEquals(authorizer.authorize(new AuthenticatedUser("non_existant_user"), permissions), Permission.NONE);
     }
 
     @Test
@@ -111,5 +115,26 @@ public class AuthorizerTest {
         } catch (ConfigurationException e) {
             fail("configuration exception thrown: "+ e.getMessage());
         }
+    }
+
+    @Test
+    public void testListPermissions() throws Exception {
+        CqlResult listPermissions = authorizer.listPermissions("username");
+        assertEquals(2, listPermissions.num);
+        assertEquals(2, listPermissions.rows.size());
+        CqlRow row1 = listPermissions.rows.get(0);
+        CqlRow row2 = listPermissions.rows.get(1);
+
+        assertEquals("/cassandra/keyspaces/test", ByteBufferUtil.string(row1.key));
+        assertEquals(1, row1.columns.size());
+        Column col1 = row1.columns.get(0);
+        assertEquals("permissions", ByteBufferUtil.string(col1.name));
+        assertEquals("[READ, WRITE, CREATE, ALTER]", ByteBufferUtil.string(col1.value));
+
+        assertEquals("/cassandra/keyspaces/test2", ByteBufferUtil.string(row2.key));
+        assertEquals(1, row2.columns.size());
+        Column col2 = row2.columns.get(0);
+        assertEquals("permissions", ByteBufferUtil.string(col2.name));
+        assertEquals("[READ]", ByteBufferUtil.string(col2.value));
     }
 }
