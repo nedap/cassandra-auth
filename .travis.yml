@@ -1,0 +1,6 @@
+notifications:
+  email:
+    - dirkjan.bussink@nedap.com
+language: java
+jdk:
+  - oraclejdk7
