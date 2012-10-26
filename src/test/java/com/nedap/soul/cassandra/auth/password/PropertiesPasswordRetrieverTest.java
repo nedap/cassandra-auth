@@ -11,11 +11,11 @@ public class PropertiesPasswordRetrieverTest {
     @Rule
     public ExpectedException exceptionExpectation = ExpectedException.none();
 
-    private final PropertiesPasswordRetriever propertiesRetriever;
+    private final PropertiesPasswordBackend propertiesRetriever;
 
     public PropertiesPasswordRetrieverTest() {
-        propertiesRetriever = new PropertiesPasswordRetriever();
-        System.setProperty(PropertiesPasswordRetriever.PASSWD_FILENAME_PROPERTY, "src/test/resources/passwd.properties");
+        propertiesRetriever = new PropertiesPasswordBackend();
+        System.setProperty(PropertiesPasswordBackend.PASSWD_FILENAME_PROPERTY, "src/test/resources/passwd.properties");
     }
 
     @Test
@@ -42,14 +42,14 @@ public class PropertiesPasswordRetrieverTest {
     @Test
     public void testValidateBackendWithoutProperty() throws Exception {
          exceptionExpectation.expect(ConfigurationException.class);
-         System.clearProperty(PropertiesPasswordRetriever.PASSWD_FILENAME_PROPERTY);
+         System.clearProperty(PropertiesPasswordBackend.PASSWD_FILENAME_PROPERTY);
          propertiesRetriever.validateBackend();
     }
 
     @Test
     public void testValidateBackendWithoutFile() throws Exception {
          exceptionExpectation.expect(ConfigurationException.class);
-         System.setProperty(PropertiesPasswordRetriever.PASSWD_FILENAME_PROPERTY, "non_existing");
+         System.setProperty(PropertiesPasswordBackend.PASSWD_FILENAME_PROPERTY, "non_existing");
          propertiesRetriever.validateBackend();
     }
 }

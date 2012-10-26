@@ -1,7 +1,7 @@
 package com.nedap.soul.cassandra.auth.helper;
 
-import com.nedap.soul.cassandra.auth.util.CassandraAuthorizationRetriever;
-import com.nedap.soul.cassandra.auth.password.CassandraPasswordRetriever;
+import com.nedap.soul.cassandra.auth.authorization.CassandraAuthorizationBackend;
+import com.nedap.soul.cassandra.auth.password.CassandraPasswordBackend;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -20,19 +20,19 @@ public class CassandraHelper {
     private static EmbeddedCassandraService cassandra;
 
 
-    private static final CFMetaData cfAuth = new CFMetaData(CassandraAuthorizationRetriever.KEYSPACE,
-                                                            CassandraAuthorizationRetriever.COLUMN_FAMILY,
+    private static final CFMetaData cfAuth = new CFMetaData(CassandraAuthorizationBackend.KEYSPACE,
+                                                            CassandraAuthorizationBackend.COLUMN_FAMILY,
                                                             ColumnFamilyType.Standard,
                                                             UTF8Type.instance,
                                                             UTF8Type.instance);
 
-    private static final CFMetaData cfPasswd = new CFMetaData(CassandraPasswordRetriever.KEYSPACE,
-                                                              CassandraPasswordRetriever.COLUMN_FAMILY,
+    private static final CFMetaData cfPasswd = new CFMetaData(CassandraPasswordBackend.KEYSPACE,
+                                                              CassandraPasswordBackend.COLUMN_FAMILY,
                                                               ColumnFamilyType.Standard,
                                                               UTF8Type.instance,
                                                               UTF8Type.instance);
 
-    private static final KSMetaData ks = KSMetaData.newKeyspace(CassandraAuthorizationRetriever.KEYSPACE,
+    private static final KSMetaData ks = KSMetaData.newKeyspace(CassandraAuthorizationBackend.KEYSPACE,
                                                                     LocalStrategy.class, new HashMap<String, String>(),
                                                                     true, Arrays.asList(new CFMetaData[]{cfAuth, cfPasswd}));
 

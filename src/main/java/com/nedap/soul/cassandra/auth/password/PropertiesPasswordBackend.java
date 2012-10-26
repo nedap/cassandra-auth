@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Properties;
 import org.apache.cassandra.config.ConfigurationException;
 
-public class PropertiesPasswordRetriever implements PasswordRetriever {
+public class PropertiesPasswordBackend implements PasswordBackend {
 
     public static String PASSWD_FILENAME_PROPERTY = "passwd.properties";
 

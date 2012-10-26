@@ -1,5 +1,6 @@
 package com.nedap.soul.cassandra.auth.password;
 
+import com.nedap.soul.cassandra.auth.authorization.CassandraAuthorizationBackend;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -17,8 +18,12 @@ import org.apache.cassandra.thrift.ConsistencyLevel;
 import org.apache.cassandra.thrift.InvalidRequestException;
 import org.apache.cassandra.thrift.UnavailableException;
 import org.apache.cassandra.utils.ByteBufferUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class CassandraPasswordRetriever implements PasswordRetriever {
+public class CassandraPasswordBackend implements PasswordBackend {
+
+    private static Logger logger = LoggerFactory.getLogger(CassandraAuthorizationBackend.class);
 
     public static final String KEYSPACE      = "access";
     public static final String COLUMN_FAMILY = "users";
@@ -42,12 +47,16 @@ public class CassandraPasswordRetriever implements PasswordRetriever {
             }
             return null;
         } catch (IOException ex) {
+            logger.error("Failed to retrieve password data", ex);
             return null;
         } catch (UnavailableException ex) {
+            logger.error("Failed to retrieve password data", ex);
             return null;
         } catch (TimeoutException ex) {
+            logger.error("Failed to retrieve password data", ex);
             return null;
         } catch (InvalidRequestException ex) {
+            logger.error("Failed to retrieve password data", ex);
             return null;
         }
     }

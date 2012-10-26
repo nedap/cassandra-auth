@@ -1,7 +1,7 @@
 package com.nedap.soul.cassandra.auth;
 
-import com.nedap.soul.cassandra.auth.password.CassandraPasswordRetriever;
-import com.nedap.soul.cassandra.auth.password.PasswordRetriever;
+import com.nedap.soul.cassandra.auth.password.CassandraPasswordBackend;
+import com.nedap.soul.cassandra.auth.password.PasswordBackend;
 import com.nedap.soul.cassandra.auth.pbkdf2.PasswordVerifier;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
@@ -12,13 +12,13 @@ import org.apache.cassandra.thrift.AuthenticationException;
 
 public class Authenticator implements IAuthenticator {
 
-    private final PasswordRetriever retriever;
+    private final PasswordBackend retriever;
 
     public Authenticator() {
-        this.retriever = new CassandraPasswordRetriever();
+        this.retriever = new CassandraPasswordBackend();
     }
 
-    public Authenticator(PasswordRetriever retriever) {
+    public Authenticator(PasswordBackend retriever) {
         this.retriever = retriever;
     }
 

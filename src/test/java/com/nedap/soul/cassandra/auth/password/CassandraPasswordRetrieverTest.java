@@ -19,18 +19,18 @@ public class CassandraPasswordRetrieverTest {
     @Rule
     public ExpectedException exceptionExpectation = ExpectedException.none();
 
-    private final CassandraPasswordRetriever propertiesRetriever;
+    private final CassandraPasswordBackend propertiesRetriever;
 
     public CassandraPasswordRetrieverTest() throws Exception {
-        propertiesRetriever = new CassandraPasswordRetriever();
+        propertiesRetriever = new CassandraPasswordBackend();
     }
 
     @BeforeClass
     public static void beforeClass() throws Exception {
         CassandraHelper.startEmbeddedService();
 
-        RowMutation change = new RowMutation(CassandraPasswordRetriever.KEYSPACE, ByteBufferUtil.bytes(("username")));
-        ColumnPath cp = new ColumnPath(CassandraPasswordRetriever.COLUMN_FAMILY).setColumn(("password").getBytes());
+        RowMutation change = new RowMutation(CassandraPasswordBackend.KEYSPACE, ByteBufferUtil.bytes(("username")));
+        ColumnPath cp = new ColumnPath(CassandraPasswordBackend.COLUMN_FAMILY).setColumn(("password").getBytes());
         change.add(new QueryPath(cp), ByteBufferUtil.bytes(("65536:256:66697865645f73616c74:a7da14d5955d903dfba9f6bc0ba403e518e27f66364080e4d16e5fcf72fe8983")), 0);
         StorageProxy.mutate(Arrays.asList(change), ConsistencyLevel.ONE);
     }

@@ -9,3 +9,4 @@ target/
 *.log
 *.iml
 src/test/cassandra
+src/test/resources/authorization_copy.properties

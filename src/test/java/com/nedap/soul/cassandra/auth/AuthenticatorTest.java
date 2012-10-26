@@ -1,6 +1,6 @@
 package com.nedap.soul.cassandra.auth;
 
-import com.nedap.soul.cassandra.auth.password.PropertiesPasswordRetriever;
+import com.nedap.soul.cassandra.auth.password.PropertiesPasswordBackend;
 import java.util.HashMap;
 import org.apache.cassandra.auth.IAuthenticator;
 import org.apache.cassandra.config.ConfigurationException;
@@ -18,8 +18,8 @@ public class AuthenticatorTest {
     public ExpectedException exceptionExpectation = ExpectedException.none();
 
     public AuthenticatorTest() throws Exception {
-        System.setProperty(PropertiesPasswordRetriever.PASSWD_FILENAME_PROPERTY, "src/test/resources/passwd.properties");
-        propertiesAuthenticator = new Authenticator(new PropertiesPasswordRetriever());
+        System.setProperty(PropertiesPasswordBackend.PASSWD_FILENAME_PROPERTY, "src/test/resources/passwd.properties");
+        propertiesAuthenticator = new Authenticator(new PropertiesPasswordBackend());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class AuthenticatorTest {
     public void testValidateConfigurationWithInvalidConfiguration() throws Exception {
         exceptionExpectation.expect(ConfigurationException.class);
 
-        System.setProperty(PropertiesPasswordRetriever.PASSWD_FILENAME_PROPERTY, "non_existing");
+        System.setProperty(PropertiesPasswordBackend.PASSWD_FILENAME_PROPERTY, "non_existing");
         propertiesAuthenticator.validateConfiguration();
     }
 
