@@ -4,6 +4,7 @@ import com.nedap.soul.cassandra.auth.password.CassandraPasswordBackend;
 import com.nedap.soul.cassandra.auth.password.PasswordBackend;
 import com.nedap.soul.cassandra.auth.pbkdf2.PasswordVerifier;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.Map;
 import org.apache.cassandra.auth.AuthenticatedUser;
 import org.apache.cassandra.auth.IAuthenticator;
@@ -38,9 +39,12 @@ public class Authenticator implements IAuthenticator {
         }
         try {
             PasswordVerifier verifier = new PasswordVerifier(storedHash);
-            if(verifier.verify(givenPassword)) {
+            char[] passwd = givenPassword.toCharArray();
+            if(verifier.verify(passwd)) {
+                Arrays.fill(passwd, '\0');
                 return new AuthenticatedUser(givenUsername);
             }
+            Arrays.fill(passwd, '\0');
             throw new AuthenticationException(errorMessage(givenUsername));
         } catch (NoSuchAlgorithmException ex) {
             throw new AuthenticationException("Unknown algorithm: " + ex.getMessage());

@@ -6,7 +6,6 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-import org.apache.commons.codec.binary.Hex;
 
 public class PasswordGenerator {
 
@@ -50,9 +49,9 @@ public class PasswordGenerator {
         this.salt             = generateSalt();
     }
 
-    public String hash(String password) {
+    public String hash(char[] password) {
         try {
-            KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations, derivedKeyLength);
+            KeySpec spec = new PBEKeySpec(password, salt, iterations, derivedKeyLength);
             byte[] data = algorithm.generateSecret(spec).getEncoded();
             return "" + iterations + ":" + derivedKeyLength + ":" + Hex.encodeHexString(salt) + ":" + Hex.encodeHexString(data);
         } catch (InvalidKeySpecException ex) {

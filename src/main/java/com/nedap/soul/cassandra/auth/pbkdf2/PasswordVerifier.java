@@ -1,7 +1,6 @@
 package com.nedap.soul.cassandra.auth.pbkdf2;
 
 import java.security.NoSuchAlgorithmException;
-import org.apache.cassandra.utils.Hex;
 
 public class PasswordVerifier {
 
@@ -16,11 +15,11 @@ public class PasswordVerifier {
         }
         int iterations       = Integer.parseInt(parts[0]);
         int derivedKeyLength = Integer.parseInt(parts[1]);
-        byte[] salt          = Hex.hexToBytes(parts[2]);
+        byte[] salt          = Hex.decodeHexString(parts[2]);
         generator            = new PasswordGenerator(iterations, derivedKeyLength, salt);
     }
 
-    public boolean verify(String password) {
+    public boolean verify(char[] password) {
         return generator.hash(password).equals(encoded);
     }
 }
