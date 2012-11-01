@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
-import org.apache.cassandra.config.CFMetaData;
 import org.apache.cassandra.config.ConfigurationException;
-import org.apache.cassandra.config.Schema;
 import org.apache.cassandra.db.IColumn;
 import org.apache.cassandra.db.ReadCommand;
 import org.apache.cassandra.db.Row;
@@ -62,12 +60,8 @@ public class CassandraPasswordBackend implements PasswordBackend {
     }
 
     @Override
-    public void validateBackend() throws ConfigurationException {
-        CFMetaData cfMetaData = Schema.instance.getCFMetaData(KEYSPACE, COLUMN_FAMILY);
-        if(cfMetaData == null) {
-            String message = "Keyspace " + KEYSPACE + " and / or column family " + COLUMN_FAMILY + " not available";
-            throw new ConfigurationException(message);
-        }
+    public boolean validateBackend() throws ConfigurationException {
+        return true;
     }
 
 }

@@ -18,19 +18,22 @@ public class AllNodeStrategy extends AbstractReplicationStrategy
 
     @Override
     public List<InetAddress> calculateNaturalEndpoints(Token token, TokenMetadata metadata) {
-        Set<InetAddress> allMembers = Gossiper.instance.getLiveMembers();
-        allMembers.addAll(Gossiper.instance.getUnreachableMembers());
-        return new ArrayList(allMembers);
+        return new ArrayList<InetAddress>(allMembers());
     }
 
     @Override
     public int getReplicationFactor() {
-        return Gossiper.instance.getLiveMembers().size() +
-               Gossiper.instance.getUnreachableMembers().size();
+        return allMembers().size();
     }
 
     @Override
     public void validateOptions() throws ConfigurationException {
+    }
+
+    private Set<InetAddress> allMembers() {
+        Set<InetAddress> allMembers = Gossiper.instance.getLiveMembers();
+        allMembers.addAll(Gossiper.instance.getUnreachableMembers());
+        return allMembers;
     }
 
 }

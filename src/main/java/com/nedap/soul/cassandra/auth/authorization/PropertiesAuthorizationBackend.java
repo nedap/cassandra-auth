@@ -75,7 +75,7 @@ public class PropertiesAuthorizationBackend implements AuthorizationBackend {
     }
 
     @Override
-    public void validateBackend() throws ConfigurationException {
+    public boolean validateBackend() throws ConfigurationException {
         String auth = getAuthorizationFilename();
         if (auth == null) {
             throw new ConfigurationException("When using " + this.getClass().getCanonicalName() + " " +
@@ -87,6 +87,7 @@ public class PropertiesAuthorizationBackend implements AuthorizationBackend {
             throw new ConfigurationException("When using " + this.getClass().getCanonicalName() + " " +
                     " given passwd file needs to exist: " + authFile.getAbsolutePath());
         }
+        return true;
     }
 
     private Properties loadAuthorizationFile() throws IOException {

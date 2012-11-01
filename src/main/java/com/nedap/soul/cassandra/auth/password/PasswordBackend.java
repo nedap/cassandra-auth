@@ -6,6 +6,6 @@ public interface PasswordBackend {
 
     public String getPasswordHashForUser(String username, String field);
 
-    public void validateBackend() throws ConfigurationException;
+    public boolean validateBackend() throws ConfigurationException;
 
 }

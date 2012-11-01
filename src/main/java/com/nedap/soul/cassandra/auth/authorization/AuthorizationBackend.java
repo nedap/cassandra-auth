@@ -23,6 +23,6 @@ public interface AuthorizationBackend {
      */
     public boolean storePermission(String username, String resource, EnumSet<Permission> permission, EnumSet<Permission> grant);
 
-    public void validateBackend() throws ConfigurationException;
+    public boolean validateBackend() throws ConfigurationException;
 
 }

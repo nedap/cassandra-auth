@@ -22,7 +22,7 @@ public class PropertiesPasswordBackend implements PasswordBackend {
     }
 
     @Override
-    public void validateBackend() throws ConfigurationException {
+    public boolean validateBackend() throws ConfigurationException {
         String passwd = getPasswdFilename();
         if (passwd == null) {
             throw new ConfigurationException("When using " + this.getClass().getCanonicalName() + " " +
@@ -34,6 +34,7 @@ public class PropertiesPasswordBackend implements PasswordBackend {
             throw new ConfigurationException("When using " + this.getClass().getCanonicalName() + " " +
                     " given passwd file needs to exist: " + passwdFile.getAbsolutePath());
         }
+        return true;
     }
 
     private Properties loadPasswdFile() throws IOException {
