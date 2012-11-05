@@ -14,22 +14,6 @@ public class PasswordGenerator {
     private static final int defaultIterations       = 65536;
     private static final int defaultDerivedKeyLength = 256;
 
-    public SecretKeyFactory getAlgorithm() {
-        return algorithm;
-    }
-
-    public int getIterations() {
-        return iterations;
-    }
-
-    public int getDerivedKeyLength() {
-        return derivedKeyLength;
-    }
-
-    public byte[] getSalt() {
-        return salt;
-    }
-
     private SecretKeyFactory algorithm;
     private int iterations;
     private int derivedKeyLength;
