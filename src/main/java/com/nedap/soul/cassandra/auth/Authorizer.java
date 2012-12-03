@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.cassandra.auth.AuthenticatedUser;
-import org.apache.cassandra.auth.IAuthority2;
+import org.apache.cassandra.auth.IAuthority;
 import org.apache.cassandra.auth.Permission;
 import org.apache.cassandra.auth.Resources;
 import org.apache.cassandra.config.ConfigurationException;
@@ -19,7 +19,7 @@ import org.apache.cassandra.thrift.CqlRow;
 import org.apache.cassandra.thrift.InvalidRequestException;
 import org.apache.cassandra.utils.ByteBufferUtil;
 
-public class Authorizer implements IAuthority2 {
+public class Authorizer implements IAuthority {
 
     private final AuthorizationBackend retriever;
 
@@ -44,11 +44,11 @@ public class Authorizer implements IAuthority2 {
         return Permission.NONE;
     }
 
-    @Override
+    //@Override
     public void setup() {
     }
 
-    @Override
+    //@Override
     public void grant(AuthenticatedUser granter, Permission permission, String to, CFName resource, boolean grantOption) throws InvalidRequestException {
         if(hasGrant(granter.username, resourceList(resource), permission)) {
             LinkedHashMap<String, EnumSet<Permission>> permissionMapForUser = retriever.getPermissionMapForUser(to);
@@ -75,7 +75,7 @@ public class Authorizer implements IAuthority2 {
         }
     }
 
-    @Override
+    //@Override
     public void revoke(AuthenticatedUser revoker, Permission permission, String from, CFName resource) throws InvalidRequestException {
         if(hasGrant(revoker.username, resourceList(resource), permission)) {
             LinkedHashMap<String, EnumSet<Permission>> permissionMapForUser = retriever.getPermissionMapForUser(from);
@@ -95,7 +95,7 @@ public class Authorizer implements IAuthority2 {
         }
     }
 
-    @Override
+    //@Override
     public CqlResult listPermissions(String username) throws InvalidRequestException {
         CqlResult result = new CqlResult();
 
