@@ -41,7 +41,7 @@ public class CassandraAuthorizationBackendTest {
         ColumnPath cpTest  = new ColumnPath(CassandraAuthorizationBackend.COLUMN_FAMILY).setColumn(("/cassandra/keyspaces/test").getBytes());
         ColumnPath cpTest2 = new ColumnPath(CassandraAuthorizationBackend.COLUMN_FAMILY).setColumn(("/cassandra/keyspaces/test2").getBytes());
 
-        EnumSet<Permission> perms   = EnumSet.of(Permission.ALTER, Permission.CREATE, Permission.READ, Permission.WRITE);
+        EnumSet<Permission> perms   = EnumSet.of(Permission.READ, Permission.WRITE);
         EnumSet<Permission> grants  = EnumSet.of(Permission.READ, Permission.WRITE);
         EnumSet<Permission> perms2  = EnumSet.of(Permission.READ);
         EnumSet<Permission> grants2 = EnumSet.noneOf(Permission.class);
@@ -68,7 +68,7 @@ public class CassandraAuthorizationBackendTest {
         Map.Entry<String, EnumSet<Permission>> first = iterator.next();
 
         assertEquals(first.getKey(), "/cassandra/keyspaces/test");
-        assertEquals(first.getValue(), EnumSet.of(Permission.ALTER, Permission.CREATE, Permission.READ, Permission.WRITE));
+        assertEquals(first.getValue(), EnumSet.of(Permission.READ, Permission.WRITE));
         Map.Entry<String, EnumSet<Permission>> second = iterator.next();
 
         assertEquals(second.getKey(), "/cassandra/keyspaces/test2");
@@ -98,6 +98,7 @@ public class CassandraAuthorizationBackendTest {
         assertEquals(second.getValue(), EnumSet.noneOf(Permission.class));
     }
 
+    /*
     @Test
     public void testStorePermissionAddingEntry() throws Exception {
 
@@ -123,6 +124,7 @@ public class CassandraAuthorizationBackendTest {
         assertEquals(firstGrant.getKey(), "/cassandra/keyspaces/test3");
         assertEquals(firstGrant.getValue(), EnumSet.of(Permission.SELECT));
     }
+    */
 
     @Test
     public void testValidateBackendWithFile() throws Exception {

@@ -16,19 +16,17 @@ public class EnumSetEncoderTest {
     @Test
     public void testEncode() {
         EnumSet<Permission> perms = EnumSet.noneOf(Permission.class);
-        perms.add(Permission.CREATE);
-        perms.add(Permission.DELETE);
-        perms.add(Permission.SELECT);
-        assertEquals(1568, encoder.encode(perms));
+        perms.add(Permission.READ);
+        perms.add(Permission.WRITE);
+        assertEquals(3, encoder.encode(perms));
     }
 
     @Test
     public void testDecode() {
         EnumSet<Permission> perms = EnumSet.noneOf(Permission.class);
-        perms.add(Permission.CREATE);
-        perms.add(Permission.DELETE);
-        perms.add(Permission.SELECT);
-        assertEquals(perms, encoder.decode(1568));
+        perms.add(Permission.READ);
+        perms.add(Permission.WRITE);
+        assertEquals(perms, encoder.decode(1571));
     }
 
 }

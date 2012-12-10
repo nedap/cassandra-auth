@@ -23,7 +23,10 @@ public class EnumSetEncoder<E extends Enum<E>> {
         int bit = 1;
         while(bit != 0) {
             if((value & bit) != 0) {
-                result.add(ordinalMap.get(ord));
+                E en = ordinalMap.get(ord);
+                if(en != null) {
+                    result.add(en);
+                }
             }
             ++ord;
             bit <<= 1;
