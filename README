@@ -5,6 +5,10 @@ usable for Cassandra authentication. It stores the credentials in
 Cassandra itself, using the following column family definitions. They
 are described as CQL3 definitions.
 
+This implementation of authentication and authorization has led to the inclusion of a very similar implementation 
+in cassandra version 1.2. Users of cassandra 1.2 can now use the built-in functionality instead of this library,
+which includes built-in commands for adding and listing users and authorizations.
+
 CREATE KEYSPACE access WITH strategy_class = 'org.apache.cassandra.locator.AllNodeStrategy';
 
 CREATE TABLE users (
